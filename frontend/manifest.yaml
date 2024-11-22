@@ -5,20 +5,20 @@ metadata:
   namespace: expense #if this is not given it goes to default
   labels:
     app: frontend
-    tier: db
+    tier: web
     project: expense
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: frontend
-      tier: db
+      tier: web
       project: expense
   template:
     metadata:
       labels:
         app: frontend
-        tier: db
+        tier: web
         project: expense
     spec:
       containers:
@@ -32,10 +32,10 @@ metadata:
   name: frontend
   namespace: expense
 spec:
-  type: LoadBalancer
+  type: Loawebalancer
   selector:
     app: frontend
-    tier: db
+    tier: web
     project: expense
   ports:
   - name: frontend-port
