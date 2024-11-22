@@ -1,53 +1,44 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: backend
-  namespace: expense
-data:
-  DB_HOST: mysql
------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: frontend
   namespace: expense #if this is not given it goes to default
   labels:
-    app: backend
+    app: frontend
     tier: db
     project: expense
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend
+      app: frontend
       tier: db
       project: expense
   template:
     metadata:
       labels:
-        app: backend
+        app: frontend
         tier: db
         project: expense
     spec:
       containers:
-      - name: backend
-        image: deepakgajula/backend:v1
-        envFrom:
-        - configMapRef:
-            name: backend
+      - name: frontend
+        image: deepakgajula/frontend:v1
+  
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: backend
+  name: frontend
   namespace: expense
 spec:
+  type: LoadBalancer
   selector:
-    app: backend
+    app: frontend
     tier: db
     project: expense
   ports:
-  - name: backend-port
+  - name: frontend-port
     protocol: TCP
-    port: 8080 # service port
-    targetPort: 8080 # container port
+    port: 80 # service port
+    targetPort: 80 # container port
