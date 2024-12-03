@@ -5,7 +5,7 @@ metadata:
   namespace: expense
 data:
   DB_HOST: mysql
------
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,6 +32,14 @@ spec:
       containers:
       - name: backend
         image: deepakgajula/backend:v1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          # limits is greater than or equal to requests
+          limits:
+            cpu: 100m
+            memory: 128Mi
         envFrom:
         - configMapRef:
             name: backend
