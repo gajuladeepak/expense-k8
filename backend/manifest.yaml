@@ -59,3 +59,21 @@ spec:
     protocol: TCP
     port: 8080 # service port
     targetPort: 8080 # container port
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+ name: backend
+ namespace: expense
+spec:
+ scaleTargetRef: #what are we targetting here we are targetting deployment
+   apiVersion: apps/v1
+   kind: Deployment
+   name: backend
+ minReplicas: 1
+ maxReplicas: 10
+ targetCPUUtilizationPercentage: 15 # usually 75 in real environment
+
+ #HorizontalPodAutoscaler increases the no of pods based on the traffic it can take CPU utilization as metric
