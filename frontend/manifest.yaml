@@ -50,3 +50,19 @@ spec:
     protocol: TCP
     port: 80 # service port
     targetPort: 80 # container port
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+ name: backend
+ namespace: expense
+spec:
+ scaleTargetRef: #what are we targetting here we are targetting deployment
+   apiVersion: apps/v1
+   kind: Deployment
+   name: backend
+ minReplicas: 1
+ maxReplicas: 10
+ targetCPUUtilizationPercentage: 15 # usually 75 in real environment
