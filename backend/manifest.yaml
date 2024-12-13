@@ -76,4 +76,4 @@ spec:
  maxReplicas: 10
  targetCPUUtilizationPercentage: 15 # usually 75 in real environment
 
- #HorizontalPodAutoscaler increases the no of pods based on the traffic it can take CPU utilization as metric
+ #HorizontalPodAutoscaler increases the no of pods based on the traffic it can take CPU utilization a s metric 
