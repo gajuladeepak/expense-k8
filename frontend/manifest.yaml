@@ -147,7 +147,7 @@ metadata:
   name: frontend
   namespace: expense
 spec:
-  #type: LoadBalancer #session 59
+  type: LoadBalancer #session 59
   selector:
     app: frontend
     tier: web
