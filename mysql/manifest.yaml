@@ -24,16 +24,18 @@ spec:
       containers:
       - name: mysql
         image: deepakgajula/mysql:v1
+        #------SESSION 57----------------
         readinessProbe:
           tcpSocket:
             port:  3306
-          initialDelaySeconds: 15
+          initialDelaySeconds: 15 #after applying it will wait for 15 seconds and tells like it is ready or not
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
             port: 3306
           initialDelaySeconds: 15
           periodSeconds: 10
+        #----------------------------------
 ---
 kind: Service
 apiVersion: v1

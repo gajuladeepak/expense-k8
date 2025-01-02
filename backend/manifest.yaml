@@ -29,13 +29,16 @@ spec:
         tier: db
         project: expense
     spec:
+      #-------------SESSION 57-----------------
       initContainers:
       - name: mysql-check
         image: busybox:1.28
         command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
+      #-----------------------------------------
       containers:
       - name: backend
         image: deepakgajula/backend:v1
+        #---------session 53-----------------
         resources:
           requests:
             cpu: 100m
@@ -44,6 +47,7 @@ spec:
           limits:
             cpu: 100m
             memory: 128Mi
+        #-------------SESSION 57-----------------
         envFrom:
         - configMapRef:
             name: backend
@@ -58,6 +62,7 @@ spec:
             port: 8080
           initialDelaySeconds: 3
           periodSeconds: 3
+          #----------------------------------------
 ---
 kind: Service
 apiVersion: v1
@@ -76,10 +81,10 @@ spec:
     targetPort: 8080 # container port
 
 ---
-
+ #-----session 53  ---------------
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
-metadata:
+metadata:   
  name: backend
  namespace: expense
 spec:
@@ -90,5 +95,7 @@ spec:
  minReplicas: 1
  maxReplicas: 10
  targetCPUUtilizationPercentage: 15 # usually 75 in real environment
+
+ #------------------------------------
 
  #HorizontalPodAutoscaler increases the no of pods based on the traffic it can take CPU utilization a s metric 

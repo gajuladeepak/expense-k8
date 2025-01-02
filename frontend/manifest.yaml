@@ -118,6 +118,7 @@ spec:
       containers:
       - name: frontend
         image: joindevops/frontend:v1
+        #---------session 53 ---------------
         resources:
           requests:
             cpu: 100m
@@ -126,11 +127,12 @@ spec:
           limits:
             cpu: 100m
             memory: 128Mi
+        #-----------------
         volumeMounts:
             - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-              readOnly: true
+              mountPath: /etc/nginx/nginx.conf #nginx config location
+              subPath: nginx.conf #file name
+              readOnly: true #no can modify
       volumes:
       - name: nginx-conf
         configMap:
@@ -145,7 +147,7 @@ metadata:
   name: frontend
   namespace: expense
 spec:
-  #type: LoadBalancer
+  #type: LoadBalancer #session 59
   selector:
     app: frontend
     tier: web
@@ -156,6 +158,7 @@ spec:
     port: 80 # service port
     targetPort: 80 # container port
 ---
+#------------Session 53------------------
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -169,15 +172,21 @@ spec:
  minReplicas: 1
  maxReplicas: 10
  targetCPUUtilizationPercentage: 15 # usually 75 in real environment
+#-------------------------------------
 ---
-apiVersion: elbv2.k8s.aws/v1beta1
-kind: TargetGroupBinding
-metadata:
-  name: frontend
-  namespace: expense
-spec:
-  serviceRef:
-    name: frontend # route traffic to the awesome-service
-    port: 80
-  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:315069654700:targetgroup/expense-dev/3a568c998a755e02
-  targetType: ip
+
+#------------------Session 59----------------
+# apiVersion: elbv2.k8s.aws/v1beta1
+# kind: TargetGroupBinding
+# metadata:
+#   name: frontend
+#   namespace: expense
+# spec:
+#   serviceRef:
+#     name: frontend # route traffic to the awesome-service
+#     port: 80
+#   targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:315069654700:targetgroup/expense-dev/3a568c998a755e02
+#   targetType: ip
+
+
+  #what this block do 
